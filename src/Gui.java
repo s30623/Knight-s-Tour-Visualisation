@@ -6,14 +6,15 @@ import java.awt.event.ActionListener;
 public class Gui extends JFrame {
     private static final int SIZE = 8;
     private static final int CELL_SIZE = 110;
+    private static int DELAY_TIME = 500;
     JButton[][] buttons;
     private Timer timer;
     ImageIcon qni;
 
     public Gui() throws HeadlessException {
-        qni = new ImageIcon("Chess-Knight-Free-PNG.png");
+        qni = new ImageIcon("knight.png");
         Image image = qni.getImage();
-        Image newim = image.getScaledInstance(CELL_SIZE+10,CELL_SIZE+10, Image.SCALE_SMOOTH);
+        Image newim = image.getScaledInstance(CELL_SIZE+10,CELL_SIZE+30, Image.SCALE_SMOOTH);
         qni = new ImageIcon(newim);
         int random_x = (int)(Math.random()*Solve.WIDTH);
         int random_y = (int)(Math.random()*Solve.HEIGHT);
@@ -27,6 +28,7 @@ public class Gui extends JFrame {
 
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(SIZE, SIZE));
+        panel.setVisible(true);
         panel.setPreferredSize(new Dimension(SIZE * CELL_SIZE, SIZE * CELL_SIZE));
         this.setTitle("Problem Skoczka");
         buttons = new JButton[SIZE][SIZE];
@@ -56,11 +58,12 @@ public class Gui extends JFrame {
             }
         });
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setLayout(new FlowLayout()); // so preferred size of panel is respected
+        this.setLayout(new FlowLayout());
         this.add(panel);
         this.add(losuj);
-        this.pack(); // size frame to fit preferred sizes
-        this.setLocationRelativeTo(null); // center on screen
+        this.pack();
+//        this.getContentPane().setBackground(new Color(43,45,48));
+        this.setLocationRelativeTo(null);
         this.setVisible(true);
         this.setResizable(false);
         this.setSize(1200,1000);
@@ -81,7 +84,7 @@ public class Gui extends JFrame {
         final int[] number = {1};
         if(timer != null) timer.stop();
         int[] previous = new int[2];
-        timer = new Timer(1000, new ActionListener() {
+        timer = new Timer(DELAY_TIME, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (number[0] > maxNumber) {
